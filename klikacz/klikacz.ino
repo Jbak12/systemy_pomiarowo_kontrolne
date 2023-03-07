@@ -1,29 +1,32 @@
 /*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
+program pobierajacy dane z przycisku, ktory jest polaczaony z pinem nr 8,
+nacisniety przycisk ustawia na pinie wartosc low, wtedy zwieksza licznik ustawiony poczatkowo na 0,
+i wyswietla licznik w binarnej reprezentacji na 8 diodach
 
-  Most Arduinos have an on-board LED you can control. On the Uno and
-  Leonardo, it is attached to digital pin 13. If you're unsure what
-  pin the on-board LED is connected to on your Arduino model, check
-  the documentation at http://arduino.cc
+pamietaj: pin ustawiony na 0/low - dioda sie swieci
+pin ustawiony na 1/high - dioda pozostaje zgaszona
+*/
 
-  This example code is in the public domain.
-
-  modified 8 May 2014
-  by Scott Fitzgerald
- */
-
-
+int val = 0;
+int counter = 0;
+int click_pin = 8;
 // the setup function runs once when you press reset or power the board
 void setup() {
-  // initialize digital pin 13 as an output.
-  pinMode(13, OUTPUT);
+  //data direection
+  DDRB = B11111111;
+  PORTB = B11111111;
+  pinMode(click_pin,INPUT);
 }
 
 // the loop function runs over and over again forever
 void loop() {
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);              // wait for a second
-  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-  delay(1000);              // wait for a second
+  
+  val = digitalRead(click_pin);
+  if(val == LOW) {
+    counter++;
+    PORTB = ~counter;
+
+    delay(300);
+  }
+
 }
